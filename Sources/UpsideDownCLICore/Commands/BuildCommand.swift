@@ -13,8 +13,6 @@ struct BuildCommand: Command, OptionDecodable {
         case configurationPath, outputPath, test
     }
     
-    
-    
     static let overview: String = "Builds an Upside Down application"
     static let options: [Key: CommandOption] = [
         .configurationPath: .option("configuration", kind: String.self, shortName: "c", usage: "path to configuration file", completion: .filename),
@@ -30,9 +28,10 @@ struct BuildCommand: Command, OptionDecodable {
     let test: String
     
     func execute() throws {
-        if !Folder.current.containsFile(named: "Dockerfile") {
-            try Folder.current.createFile(named: "Dockerfile", contents: "I'm a dockerfile?!", encoding: .utf8)
-        }
+        // FIXME: Create a Dockerfile in bin with the cli or in a tmp folder
+//        if !Folder.current.containsFile(named: "Dockerfile") {
+//            try Folder.current.createFile(named: "Dockerfile", contents: "I'm a dockerfile?!", encoding: .utf8)
+//        }
         
         if let path = configurationPath {
             print("Config: \(path)")

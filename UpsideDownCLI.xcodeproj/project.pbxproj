@@ -690,7 +690,7 @@
 			path = ".build/checkouts/swift-package-manager/Sources/Basic";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -701,7 +701,6 @@
 				OBJ_134 /* LICENSE */,
 				OBJ_135 /* README.md */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_68 /* Build */ = {
@@ -723,7 +722,7 @@
 		OBJ_7 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* UpsideDownCLI */,
+				OBJ_8 /* upside-down */,
 				OBJ_10 /* UpsideDownCLICore */,
 			);
 			name = Sources;
@@ -748,13 +747,13 @@
 			path = ".build/checkouts/swift-package-manager/Sources/POSIX";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_8 /* UpsideDownCLI */ = {
+		OBJ_8 /* upside-down */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_9 /* main.swift */,
 			);
-			name = UpsideDownCLI;
-			path = Sources/UpsideDownCLI;
+			name = "upside-down";
+			path = "Sources/upside-down";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_82 /* PackageDescription */ = {
@@ -1070,7 +1069,7 @@
 				English,
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_125 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
