@@ -5,6 +5,7 @@ build:
 	swift build -c release --disable-sandbox
 
 install: build
+	mkdir -p "$(bindir)"
 	install ".build/release/upside-down" "$(bindir)"
 
 uninstall:
