@@ -8,18 +8,6 @@ import Foundation
 import Utility
 
 public struct ArgumentDecoder: Decoder {
-    public struct Error: LocalizedError {
-        let message: String
-        
-        init(_ message: String) {
-            self.message = message
-        }
-        
-        public var errorDescription: String? {
-            return message
-        }
-    }
-    
     private let result: ArgumentParser.Result
     private let options: CommandOptions
     public let codingPath: [CodingKey] = []
@@ -35,11 +23,11 @@ public struct ArgumentDecoder: Decoder {
     }
     
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
-        throw Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
     
     public func singleValueContainer() throws -> SingleValueDecodingContainer {
-        throw Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
 }
 
@@ -52,7 +40,7 @@ private struct ArgumentValueDecoder: Decoder {
     }
     
     func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
-        throw ArgumentDecoder.Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
     
     func unkeyedContainer() throws -> UnkeyedDecodingContainer {
@@ -163,7 +151,7 @@ struct ArgumentDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     }
     
     func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
-        throw ArgumentDecoder.Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
     
     func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
@@ -171,11 +159,11 @@ struct ArgumentDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     }
     
     func superDecoder() throws -> Decoder {
-        throw ArgumentDecoder.Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
     
     func superDecoder(forKey key: Key) throws -> Decoder {
-        throw ArgumentDecoder.Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
     
     private func createContainer(for key: Key) throws -> ArgumentSingleValueDecodingContainer {
@@ -191,7 +179,7 @@ struct ArgumentDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     
     private func getArgument(for key: Key) throws -> AnyArgument {
         guard let argument = options.arguments[key.stringValue] else {
-            throw ArgumentDecoder.Error("Argument does not exist for \(key.stringValue)")
+            throw CLIError("Argument does not exist for \(key.stringValue)")
         }
         
         return argument
@@ -225,7 +213,7 @@ struct ArgumentUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         guard let value = value else {
             let key = codingPath.last
             let message = key == nil ? "Missing value" : "Missing value for key \(key!.stringValue)"
-            throw ArgumentDecoder.Error(message)
+            throw CLIError(message)
         }
         
         let next = value[currentIndex]
@@ -236,7 +224,7 @@ struct ArgumentUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     mutating func nextValue<T>(as t: T.Type) throws -> T {
         let next = try nextValue()
         guard let castNext = next as? T else {
-            throw ArgumentDecoder.Error("expected \(String(describing: T.self)) but received \(String(describing: type(of: next)))")
+            throw CLIError("expected \(String(describing: T.self)) but received \(String(describing: type(of: next)))")
         }
         
         return castNext
@@ -307,15 +295,15 @@ struct ArgumentUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     }
     
     mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
-        throw ArgumentDecoder.Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
     
     mutating func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
-        throw ArgumentDecoder.Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
     
     mutating func superDecoder() throws -> Decoder {
-        throw ArgumentDecoder.Error("Invalid Container Type")
+        throw CLIError("Invalid Container Type")
     }
 }
 
@@ -347,7 +335,7 @@ struct ArgumentSingleValueDecodingContainer: SingleValueDecodingContainer {
         guard let value = try argument.get(type, from: result) else {
             let key = codingPath.last
             let message = key == nil ? "Missing value" : "Missing value for key \(key!.stringValue)"
-            throw ArgumentDecoder.Error(message)
+            throw CLIError(message)
         }
         
         return value

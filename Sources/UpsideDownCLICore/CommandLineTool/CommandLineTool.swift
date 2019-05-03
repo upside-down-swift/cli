@@ -9,18 +9,6 @@ import Basic
 import Utility
 
 open class CommandLineTool {
-    public struct Error: LocalizedError {
-        let message: String
-        
-        init(_ message: String) {
-            self.message = message
-        }
-        
-        public var errorDescription: String? {
-            return message
-        }
-    }
-    
     let argParser: ArgumentParser
     private var commands: [String?: (type: Command.Type, options: CommandOptions)] = [:]
     
@@ -45,16 +33,17 @@ open class CommandLineTool {
     }
     
     public func run(arguments: [String]) throws {
+        let context = Context(arguments)
         let result = try argParser.parse(Array(arguments.dropFirst()))
         // TODO: Parse shared arguments
         let commandName = result.subparser(argParser)
         guard let commandInfo = commands[commandName] else {
             argParser.printUsage(on: stdoutStream) // TODO: Log levels etc?
             let commandString = commandName != nil ? "\(commandName!) " : ""
-            throw Error("Command \(commandString)does not exist")
+            throw CLIError("Command \(commandString)does not exist")
         }
         
         let command = try commandInfo.type.from(result: result, options: commandInfo.options)
-        try command.execute()
+        try command.execute(in: context)
     }
 }

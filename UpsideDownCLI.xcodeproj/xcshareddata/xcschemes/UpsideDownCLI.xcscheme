@@ -107,6 +107,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "help"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "dockerfile"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

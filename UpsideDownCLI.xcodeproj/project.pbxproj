@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CC7A36E227CE53900DAECAE /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A36C227CE46D00DAECAE /* Context.swift */; };
+		2CC7A372227CE7B000DAECAE /* CLIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A370227CE75200DAECAE /* CLIError.swift */; };
 		2CDC19192278033500DE767A /* UpsideDownCLITool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC19172278031100DE767A /* UpsideDownCLITool.swift */; };
 		2CDC191C2278158300DE767A /* ArgumentKind+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC191A2278155400DE767A /* ArgumentKind+Decodable.swift */; };
 		OBJ_141 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Await.swift */; };
@@ -282,6 +284,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CC7A36C227CE46D00DAECAE /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
+		2CC7A36F227CE6AE00DAECAE /* upside-down.Dockerfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "upside-down.Dockerfile"; sourceTree = "<group>"; };
+		2CC7A370227CE75200DAECAE /* CLIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIError.swift; sourceTree = "<group>"; };
 		2CDC19172278031100DE767A /* UpsideDownCLITool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsideDownCLITool.swift; sourceTree = "<group>"; };
 		2CDC191A2278155400DE767A /* ArgumentKind+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArgumentKind+Decodable.swift"; sourceTree = "<group>"; };
 		"Files::Files::Product" /* Files.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Files.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -481,10 +486,12 @@
 				OBJ_12 /* AnyArgument.swift */,
 				OBJ_13 /* ArgumentDecoder.swift */,
 				2CDC191A2278155400DE767A /* ArgumentKind+Decodable.swift */,
+				2CC7A370227CE75200DAECAE /* CLIError.swift */,
 				OBJ_14 /* Command.swift */,
 				OBJ_15 /* CommandLineTool.swift */,
 				OBJ_16 /* CommandOption.swift */,
 				OBJ_17 /* CommandOptions.swift */,
+				2CC7A36C227CE46D00DAECAE /* Context.swift */,
 				OBJ_18 /* OptionDecodable.swift */,
 			);
 			path = CommandLineTool;
@@ -694,6 +701,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
+				2CC7A36F227CE6AE00DAECAE /* upside-down.Dockerfile */,
 				OBJ_7 /* Sources */,
 				OBJ_23 /* Tests */,
 				OBJ_24 /* Dependencies */,
@@ -1201,12 +1209,14 @@
 				OBJ_264 /* ArgumentDecoder.swift in Sources */,
 				OBJ_265 /* Command.swift in Sources */,
 				2CDC19192278033500DE767A /* UpsideDownCLITool.swift in Sources */,
+				2CC7A36E227CE53900DAECAE /* Context.swift in Sources */,
 				OBJ_266 /* CommandLineTool.swift in Sources */,
 				OBJ_267 /* CommandOption.swift in Sources */,
 				2CDC191C2278158300DE767A /* ArgumentKind+Decodable.swift in Sources */,
 				OBJ_268 /* CommandOptions.swift in Sources */,
 				OBJ_269 /* OptionDecodable.swift in Sources */,
 				OBJ_270 /* BuildCommand.swift in Sources */,
+				2CC7A372227CE7B000DAECAE /* CLIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Files
 import Utility
 
 struct BuildCommand: Command, OptionDecodable {
@@ -27,11 +26,23 @@ struct BuildCommand: Command, OptionDecodable {
     let outputPath: String?
     let test: String
     
-    func execute() throws {
-        // FIXME: Create a Dockerfile in bin with the cli or in a tmp folder
-//        if !Folder.current.containsFile(named: "Dockerfile") {
-//            try Folder.current.createFile(named: "Dockerfile", contents: "I'm a dockerfile?!", encoding: .utf8)
-//        }
+    func execute(in context: Context) throws {
+        if test == "dockerfile" {
+            let scriptURL = try context.getAbsoluteScriptURL()
+            guard let dockerfileURL = URL(string: "../etc/upside-down.Dockerfile", relativeTo: scriptURL) else {
+                throw CLIError("Failed to create dockerfile path")
+            }
+            
+            let fm = FileManager.default
+            
+            guard fm.fileExists(atPath: dockerfileURL.path) else {
+                throw CLIError("Dockerfile does not exist at \(dockerfileURL.path)")
+            }
+            
+            let data = try String(contentsOf: dockerfileURL, encoding: .utf8)
+            print(data)
+            return
+        }
         
         if let path = configurationPath {
             print("Config: \(path)")

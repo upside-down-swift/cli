@@ -11,5 +11,5 @@ public protocol Command {
     static func generateOptions(from: ArgumentParser) -> CommandOptions
     static func from(result: ArgumentParser.Result, options: CommandOptions) throws -> Self
     static var overview: String { get }
-    func execute() throws
+    func execute(in: Context) throws
 }
