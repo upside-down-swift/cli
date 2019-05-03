@@ -56,8 +56,8 @@ public class Context {
                 return scriptUrl
             } else {
                 let which = Process()
-                which.launchPath = "sh"
-                which.arguments = ["-c", "which \(scriptPath)"]
+                which.launchPath = "/usr/bin/which"
+                which.arguments = [scriptPath]
                 
                 let pipe = Pipe()
                 which.standardOutput = pipe
