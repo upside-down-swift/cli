@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		2CC7A36E227CE53900DAECAE /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A36C227CE46D00DAECAE /* Context.swift */; };
 		2CC7A372227CE7B000DAECAE /* CLIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A370227CE75200DAECAE /* CLIError.swift */; };
+		2CC7A379227D2C4100DAECAE /* Context+URLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A378227D2C4100DAECAE /* Context+URLs.swift */; };
+		2CC7A37B227D2D0700DAECAE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A37A227D2D0700DAECAE /* Configuration.swift */; };
+		2CC7A37F227D340C00DAECAE /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A37E227D340C00DAECAE /* VersionCommand.swift */; };
 		2CDC19192278033500DE767A /* UpsideDownCLITool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC19172278031100DE767A /* UpsideDownCLITool.swift */; };
 		2CDC191C2278158300DE767A /* ArgumentKind+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC191A2278155400DE767A /* ArgumentKind+Decodable.swift */; };
 		OBJ_141 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Await.swift */; };
@@ -285,8 +288,12 @@
 
 /* Begin PBXFileReference section */
 		2CC7A36C227CE46D00DAECAE /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
-		2CC7A36F227CE6AE00DAECAE /* upside-down.Dockerfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "upside-down.Dockerfile"; sourceTree = "<group>"; };
+		2CC7A36F227CE6AE00DAECAE /* Dockerfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Dockerfile; sourceTree = "<group>"; };
 		2CC7A370227CE75200DAECAE /* CLIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIError.swift; sourceTree = "<group>"; };
+		2CC7A375227D2A3700DAECAE /* default-config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "default-config.plist"; sourceTree = "<group>"; };
+		2CC7A378227D2C4100DAECAE /* Context+URLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Context+URLs.swift"; sourceTree = "<group>"; };
+		2CC7A37A227D2D0700DAECAE /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		2CC7A37E227D340C00DAECAE /* VersionCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
 		2CDC19172278031100DE767A /* UpsideDownCLITool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsideDownCLITool.swift; sourceTree = "<group>"; };
 		2CDC191A2278155400DE767A /* ArgumentKind+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArgumentKind+Decodable.swift"; sourceTree = "<group>"; };
 		"Files::Files::Product" /* Files.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Files.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -469,11 +476,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CC7A373227D29F200DAECAE /* pipelines */ = {
+			isa = PBXGroup;
+			children = (
+				2CC7A374227D2A0900DAECAE /* 5.0 */,
+			);
+			path = pipelines;
+			sourceTree = "<group>";
+		};
+		2CC7A374227D2A0900DAECAE /* 5.0 */ = {
+			isa = PBXGroup;
+			children = (
+				2CC7A36F227CE6AE00DAECAE /* Dockerfile */,
+			);
+			path = 5.0;
+			sourceTree = "<group>";
+		};
+		2CC7A377227D2C2000DAECAE /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2CC7A378227D2C4100DAECAE /* Context+URLs.swift */,
+				2CC7A37A227D2D0700DAECAE /* Configuration.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* UpsideDownCLICore */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_11 /* CommandLineTool */,
 				OBJ_19 /* Commands */,
+				2CC7A377227D2C2000DAECAE /* Utilities */,
 				2CDC19172278031100DE767A /* UpsideDownCLITool.swift */,
 			);
 			name = UpsideDownCLICore;
@@ -591,6 +624,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_20 /* BuildCommand.swift */,
+				2CC7A37E227D340C00DAECAE /* VersionCommand.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -701,7 +735,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
-				2CC7A36F227CE6AE00DAECAE /* upside-down.Dockerfile */,
+				2CC7A375227D2A3700DAECAE /* default-config.plist */,
+				2CC7A373227D29F200DAECAE /* pipelines */,
 				OBJ_7 /* Sources */,
 				OBJ_23 /* Tests */,
 				OBJ_24 /* Dependencies */,
@@ -1205,14 +1240,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				2CC7A37F227D340C00DAECAE /* VersionCommand.swift in Sources */,
 				OBJ_263 /* AnyArgument.swift in Sources */,
 				OBJ_264 /* ArgumentDecoder.swift in Sources */,
+				2CC7A37B227D2D0700DAECAE /* Configuration.swift in Sources */,
 				OBJ_265 /* Command.swift in Sources */,
 				2CDC19192278033500DE767A /* UpsideDownCLITool.swift in Sources */,
 				2CC7A36E227CE53900DAECAE /* Context.swift in Sources */,
 				OBJ_266 /* CommandLineTool.swift in Sources */,
 				OBJ_267 /* CommandOption.swift in Sources */,
 				2CDC191C2278158300DE767A /* ArgumentKind+Decodable.swift in Sources */,
+				2CC7A379227D2C4100DAECAE /* Context+URLs.swift in Sources */,
 				OBJ_268 /* CommandOptions.swift in Sources */,
 				OBJ_269 /* OptionDecodable.swift in Sources */,
 				OBJ_270 /* BuildCommand.swift in Sources */,

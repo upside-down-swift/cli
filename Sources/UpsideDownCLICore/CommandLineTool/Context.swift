@@ -8,18 +8,6 @@
 import Foundation
 
 public class Context {
-    public struct Error: LocalizedError {
-        let message: String
-        
-        init(_ message: String) {
-            self.message = message
-        }
-        
-        public var errorDescription: String? {
-            return message
-        }
-    }
-    
     public let arguments: [String]
     private var _scriptURL: URL?
     
@@ -33,7 +21,7 @@ public class Context {
         }
         
         guard let scriptPath = arguments.first else {
-            throw Error("Invalid argument: No script")
+            throw CLIError("Invalid arguments")
         }
         
         let url = try getURL(scriptPath)
@@ -42,18 +30,12 @@ public class Context {
     }
     
     private func getURL(_ scriptPath: String) throws -> URL {
-        let fm = FileManager.default
-        
         if scriptPath.hasPrefix("/") {
-            if fm.fileExists(atPath: scriptPath) {
-                return URL(fileURLWithPath: scriptPath).resolvingSymlinksInPath()
-            } else {
-                throw Error("Script does not exist at path \(scriptPath)")
-            }
+            return try validateURL(URL(fileURLWithPath: scriptPath))
         } else {
-            let cwdURL = URL(fileURLWithPath: fm.currentDirectoryPath)
-            if let scriptUrl = URL(string: scriptPath, relativeTo: cwdURL), fm.fileExists(atPath: scriptUrl.path) {
-                return scriptUrl
+            let cwdURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+            if let scriptUrl = URL(string: scriptPath, relativeTo: cwdURL), let validURL = try? validateURL(scriptUrl) {
+                return validURL
             } else {
                 let which = Process()
                 which.launchPath = "/usr/bin/which"
@@ -64,14 +46,27 @@ public class Context {
                 which.launch()
                 
                 let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                let whichPath = String(decoding: data, as: UTF8.self)
-                
-                if fm.fileExists(atPath: whichPath) {
-                    return URL(fileURLWithPath: whichPath).resolvingSymlinksInPath()
-                } else {
-                    throw Error("Cannot find script \(scriptPath)")
-                }
+                let whichPath = String(decoding: data, as: UTF8.self).trimmingCharacters(in: .whitespacesAndNewlines)
+                return try validateURL(URL(fileURLWithPath: whichPath))
             }
         }
+    }
+    
+    private func validateURL(_ url: URL) throws -> URL {
+        var validURL = url
+        if try isAlias(url) {
+            validURL = try URL(resolvingAliasFileAt: url) // TODO: Does this need to be done for every path components?
+        }
+        
+        guard FileManager.default.fileExists(atPath: validURL.path) else {
+            throw CLIError("\(validURL.path) does not exist")
+        }
+        
+        return validURL
+    }
+    
+    private func isAlias(_ url: URL) throws -> Bool {
+        let resourceValues = try url.resourceValues(forKeys: [.isAliasFileKey])
+        return resourceValues.isAliasFile == true
     }
 }

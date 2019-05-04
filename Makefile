@@ -8,11 +8,13 @@ build:
 install: build
 	mkdir -p  "$(bindir)" "${etcdir}"
 	install ".build/release/upside-down" "$(bindir)"
-	cp "upside-down.Dockerfile" "${etcdir}"
+	cp -r "pipelines/" "${etcdir}/pipelines"
+	cp "default-config.plist" "${etcdir}"
 
 uninstall:
 	rm -rf "$(bindir)/upside-down"
-	rm "${etcdir}/upside-down.Dockerfile"
+	rm -rf "${etcdir}/pipelines"
+	rm "${etcdir}/default-config.plist"
 
 clean:
 	rm -rf .build

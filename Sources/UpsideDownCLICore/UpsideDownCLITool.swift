@@ -7,5 +7,12 @@
 import Foundation
 
 extension CommandLineTool {
-    public static let upsideDown = CommandLineTool(commands: ["build": BuildCommand.self], usage: "command [command options] [arguments...]", overview: "Command Line Interface for Upside Down applications")
+    public static let upsideDown = CommandLineTool(
+        commands: [
+            "build": BuildCommand.self,
+            "version": VersionCommand.self
+        ],
+        usage: "command [command options] [arguments...]",
+        overview: "Command Line Interface for Upside Down applications"
+    )
 }

@@ -9,12 +9,12 @@ import Utility
 
 struct BuildCommand: Command, OptionDecodable {
     enum Key: String, CodingKey {
-        case configurationPath, outputPath, test
+        case configurationURL, outputPath, test
     }
     
     static let overview: String = "Builds an Upside Down application"
     static let options: [Key: CommandOption] = [
-        .configurationPath: .option("configuration", kind: String.self, shortName: "c", usage: "path to configuration file", completion: .filename),
+        .configurationURL: .option("configuration", kind: String.self, shortName: "c", usage: "path to configuration file", completion: .filename),
         .outputPath: .option("output", kind: String.self, shortName: "o", usage: "path to output directory", completion: .filename),
         .test: .positional("test", kind: String.self, optional: false, usage: "just for testing", completion: .values([
             (value: "help", description: "show buildctl help"),
@@ -22,34 +22,16 @@ struct BuildCommand: Command, OptionDecodable {
         ]))
     ]
     
-    let configurationPath: String?
+    let configurationURL: Foundation.URL?
     let outputPath: String?
     let test: String
     
     func execute(in context: Context) throws {
         if test == "dockerfile" {
-            let scriptURL = try context.getAbsoluteScriptURL()
-            guard let dockerfileURL = URL(string: "../etc/upside-down.Dockerfile", relativeTo: scriptURL) else {
-                throw CLIError("Failed to create dockerfile path")
-            }
-            
-            let fm = FileManager.default
-            
-            guard fm.fileExists(atPath: dockerfileURL.path) else {
-                throw CLIError("Dockerfile does not exist at \(dockerfileURL.path)")
-            }
-            
+            let dockerfileURL = try getDockerfileURL(in: context)
             let data = try String(contentsOf: dockerfileURL, encoding: .utf8)
             print(data)
             return
-        }
-        
-        if let path = configurationPath {
-            print("Config: \(path)")
-        }
-        
-        if let path = outputPath {
-            print("Output: \(path)")
         }
         
         let buildctl = Process()
@@ -66,5 +48,31 @@ struct BuildCommand: Command, OptionDecodable {
         
         buildctl.launch()
         buildctl.waitUntilExit()
+    }
+    
+    private func getDockerfileURL(in context: Context) throws -> Foundation.URL {
+        let configURL: Foundation.URL = try {
+            if let url = configurationURL {
+                return url
+            } else {
+                return try context.defaultConfigurationURL()
+            }
+            }()
+        
+        let config = try Configuration.from(url: configURL)
+        let pipeline = config.version
+        let pipelineDir = try context.pipelineDirectory()
+        
+        guard let dockerfileURL = URL(string: "\(pipeline)/Dockerfile", relativeTo: pipelineDir) else {
+            throw CLIError("Unable to find Dockerfile in \(pipelineDir.path)/\(pipeline)")
+        }
+        
+        let fm = FileManager.default
+        
+        guard fm.fileExists(atPath: dockerfileURL.path) else {
+            throw CLIError("Dockerfile does not exist at \(dockerfileURL.path)")
+        }
+        
+        return dockerfileURL
     }
 }
