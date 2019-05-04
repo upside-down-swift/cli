@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>target</key>
+	<string>fake-target</string>
+	<key>stages</key>
+	<dict>
+		<key>stage1</key>
+		<string>One</string>
+		<key>stage2</key>
+		<string>Two</string>
+	</dict>
+</dict>
+</plist>

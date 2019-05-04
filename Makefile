@@ -9,12 +9,12 @@ install: build
 	mkdir -p  "$(bindir)" "${etcdir}"
 	install ".build/release/upside-down" "$(bindir)"
 	cp -r "pipelines/" "${etcdir}/pipelines"
-	cp "default-config.plist" "${etcdir}"
+	cp "upside-down.plist" "${etcdir}"
 
 uninstall:
 	rm -rf "$(bindir)/upside-down"
 	rm -rf "${etcdir}/pipelines"
-	rm "${etcdir}/default-config.plist"
+	rm "${etcdir}/upside-down.plist"
 
 clean:
 	rm -rf .build

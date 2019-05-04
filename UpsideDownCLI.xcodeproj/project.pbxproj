@@ -10,8 +10,10 @@
 		2CC7A36E227CE53900DAECAE /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A36C227CE46D00DAECAE /* Context.swift */; };
 		2CC7A372227CE7B000DAECAE /* CLIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A370227CE75200DAECAE /* CLIError.swift */; };
 		2CC7A379227D2C4100DAECAE /* Context+URLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A378227D2C4100DAECAE /* Context+URLs.swift */; };
-		2CC7A37B227D2D0700DAECAE /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A37A227D2D0700DAECAE /* Configuration.swift */; };
-		2CC7A37F227D340C00DAECAE /* VersionCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A37E227D340C00DAECAE /* VersionCommand.swift */; };
+		2CC7A37B227D2D0700DAECAE /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A37A227D2D0700DAECAE /* AppConfiguration.swift */; };
+		2CC7A37F227D340C00DAECAE /* PipelineCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A37E227D340C00DAECAE /* PipelineCommand.swift */; };
+		2CC7A381227E01AA00DAECAE /* BuildConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A380227E01AA00DAECAE /* BuildConfiguration.swift */; };
+		2CC7A384227E108E00DAECAE /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7A383227E108E00DAECAE /* Path.swift */; };
 		2CDC19192278033500DE767A /* UpsideDownCLITool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC19172278031100DE767A /* UpsideDownCLITool.swift */; };
 		2CDC191C2278158300DE767A /* ArgumentKind+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDC191A2278155400DE767A /* ArgumentKind+Decodable.swift */; };
 		OBJ_141 /* Await.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Await.swift */; };
@@ -290,10 +292,13 @@
 		2CC7A36C227CE46D00DAECAE /* Context.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
 		2CC7A36F227CE6AE00DAECAE /* Dockerfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Dockerfile; sourceTree = "<group>"; };
 		2CC7A370227CE75200DAECAE /* CLIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIError.swift; sourceTree = "<group>"; };
-		2CC7A375227D2A3700DAECAE /* default-config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "default-config.plist"; sourceTree = "<group>"; };
+		2CC7A375227D2A3700DAECAE /* upside-down.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "upside-down.plist"; sourceTree = "<group>"; };
 		2CC7A378227D2C4100DAECAE /* Context+URLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Context+URLs.swift"; sourceTree = "<group>"; };
-		2CC7A37A227D2D0700DAECAE /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
-		2CC7A37E227D340C00DAECAE /* VersionCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionCommand.swift; sourceTree = "<group>"; };
+		2CC7A37A227D2D0700DAECAE /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		2CC7A37E227D340C00DAECAE /* PipelineCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineCommand.swift; sourceTree = "<group>"; };
+		2CC7A380227E01AA00DAECAE /* BuildConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildConfiguration.swift; sourceTree = "<group>"; };
+		2CC7A382227E0C6300DAECAE /* test-build.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "test-build.plist"; sourceTree = "<group>"; };
+		2CC7A383227E108E00DAECAE /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		2CDC19172278031100DE767A /* UpsideDownCLITool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpsideDownCLITool.swift; sourceTree = "<group>"; };
 		2CDC191A2278155400DE767A /* ArgumentKind+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArgumentKind+Decodable.swift"; sourceTree = "<group>"; };
 		"Files::Files::Product" /* Files.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Files.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -496,7 +501,9 @@
 			isa = PBXGroup;
 			children = (
 				2CC7A378227D2C4100DAECAE /* Context+URLs.swift */,
-				2CC7A37A227D2D0700DAECAE /* Configuration.swift */,
+				2CC7A37A227D2D0700DAECAE /* AppConfiguration.swift */,
+				2CC7A380227E01AA00DAECAE /* BuildConfiguration.swift */,
+				2CC7A383227E108E00DAECAE /* Path.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -624,7 +631,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_20 /* BuildCommand.swift */,
-				2CC7A37E227D340C00DAECAE /* VersionCommand.swift */,
+				2CC7A37E227D340C00DAECAE /* PipelineCommand.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -735,7 +742,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
-				2CC7A375227D2A3700DAECAE /* default-config.plist */,
+				2CC7A375227D2A3700DAECAE /* upside-down.plist */,
+				2CC7A382227E0C6300DAECAE /* test-build.plist */,
 				2CC7A373227D29F200DAECAE /* pipelines */,
 				OBJ_7 /* Sources */,
 				OBJ_23 /* Tests */,
@@ -1240,10 +1248,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				2CC7A37F227D340C00DAECAE /* VersionCommand.swift in Sources */,
+				2CC7A384227E108E00DAECAE /* Path.swift in Sources */,
+				2CC7A37F227D340C00DAECAE /* PipelineCommand.swift in Sources */,
 				OBJ_263 /* AnyArgument.swift in Sources */,
 				OBJ_264 /* ArgumentDecoder.swift in Sources */,
-				2CC7A37B227D2D0700DAECAE /* Configuration.swift in Sources */,
+				2CC7A37B227D2D0700DAECAE /* AppConfiguration.swift in Sources */,
 				OBJ_265 /* Command.swift in Sources */,
 				2CDC19192278033500DE767A /* UpsideDownCLITool.swift in Sources */,
 				2CC7A36E227CE53900DAECAE /* Context.swift in Sources */,
@@ -1251,6 +1260,7 @@
 				OBJ_267 /* CommandOption.swift in Sources */,
 				2CDC191C2278158300DE767A /* ArgumentKind+Decodable.swift in Sources */,
 				2CC7A379227D2C4100DAECAE /* Context+URLs.swift in Sources */,
+				2CC7A381227E01AA00DAECAE /* BuildConfiguration.swift in Sources */,
 				OBJ_268 /* CommandOptions.swift in Sources */,
 				OBJ_269 /* OptionDecodable.swift in Sources */,
 				OBJ_270 /* BuildCommand.swift in Sources */,

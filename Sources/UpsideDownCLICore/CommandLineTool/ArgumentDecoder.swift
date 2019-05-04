@@ -23,11 +23,11 @@ public struct ArgumentDecoder: Decoder {
     }
     
     public func unkeyedContainer() throws -> UnkeyedDecodingContainer {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 1)
     }
     
     public func singleValueContainer() throws -> SingleValueDecodingContainer {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 2)
     }
 }
 
@@ -40,7 +40,7 @@ private struct ArgumentValueDecoder: Decoder {
     }
     
     func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 3)
     }
     
     func unkeyedContainer() throws -> UnkeyedDecodingContainer {
@@ -151,7 +151,7 @@ struct ArgumentDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     }
     
     func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: Key) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 4)
     }
     
     func nestedUnkeyedContainer(forKey key: Key) throws -> UnkeyedDecodingContainer {
@@ -159,11 +159,11 @@ struct ArgumentDecodingContainer<Key: CodingKey>: KeyedDecodingContainerProtocol
     }
     
     func superDecoder() throws -> Decoder {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 5)
     }
     
     func superDecoder(forKey key: Key) throws -> Decoder {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 6)
     }
     
     private func createContainer(for key: Key) throws -> ArgumentSingleValueDecodingContainer {
@@ -295,15 +295,15 @@ struct ArgumentUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     }
     
     mutating func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 7)
     }
     
     mutating func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 8)
     }
     
     mutating func superDecoder() throws -> Decoder {
-        throw CLIError("Invalid Container Type")
+        throw CLIError("Invalid Container Type", 9)
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  VersionCommand.swift
+//  PipelineCommand.swift
 //  UpsideDownCLICore
 //
 //  Created by Marcus Smith on 5/3/19.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct VersionCommand: Command, OptionDecodable {
+struct PipelineCommand: Command, OptionDecodable {
     enum Key: String, CodingKey {
         case all, value
     }
@@ -27,30 +27,30 @@ struct VersionCommand: Command, OptionDecodable {
         }
         
         if let value = value {
-            let allVersions = try getAllVersions(in: context)
+            let allVersions = try getAllPipelines(in: context)
             guard allVersions.contains(value) else {
                 throw CLIError("version \(value) not installed")
             }
             
-            let configURL = try context.defaultConfigurationURL()
-            var config = try Configuration.from(url: configURL)
+            let configURL = try context.appConfigurationURL()
+            var config = try context.loadConfiguration()
             config.version = value
             try config.save(to: configURL)
         } else if all {
-            let current = try getCurrentVersion(in: context)
-            let allVersions = try getAllVersions(in: context)
+            let current = try getCurrentPipeline(in: context)
+            let allVersions = try getAllPipelines(in: context)
             allVersions.forEach { print("\($0)\($0 == current ? "*" : "")") }
         } else {
-            print(try getCurrentVersion(in: context))
+            print(try getCurrentPipeline(in: context))
         }
     }
     
-    private func getCurrentVersion(in context: Context) throws -> String {
-        let config = try Configuration.from(url: try context.defaultConfigurationURL())
+    private func getCurrentPipeline(in context: Context) throws -> String {
+        let config = try context.loadConfiguration()
         return config.version
     }
     
-    private func getAllVersions(in context: Context) throws -> [String] {
+    private func getAllPipelines(in context: Context) throws -> [String] {
         let pipelinesURL = try context.pipelineDirectory()
         let contents = try FileManager.default.contentsOfDirectory(atPath: pipelinesURL.path)
         return contents.sorted(by: >)

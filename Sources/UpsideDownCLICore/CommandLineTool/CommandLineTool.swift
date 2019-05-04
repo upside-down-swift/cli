@@ -33,7 +33,7 @@ open class CommandLineTool {
     }
     
     public func run(arguments: [String]) throws {
-        let context = Context(arguments)
+        let context = Context(arguments: arguments, environment: ProcessInfo.processInfo.environment)
         let result = try argParser.parse(Array(arguments.dropFirst()))
         // TODO: Parse shared arguments
         let commandName = result.subparser(argParser)

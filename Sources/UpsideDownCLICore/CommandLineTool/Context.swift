@@ -9,10 +9,14 @@ import Foundation
 
 public class Context {
     public let arguments: [String]
+    public let environment: [String: String]
+    public var values: [String: Any?]
     private var _scriptURL: URL?
     
-    public init(_ arguments: [String]) {
+    public init(arguments: [String], environment: [String: String]) {
         self.arguments = arguments
+        self.environment = environment
+        self.values = [:]
     }
     
     public func getAbsoluteScriptURL() throws -> URL {

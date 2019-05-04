@@ -10,7 +10,7 @@ extension CommandLineTool {
     public static let upsideDown = CommandLineTool(
         commands: [
             "build": BuildCommand.self,
-            "version": VersionCommand.self
+            "pipeline": PipelineCommand.self
         ],
         usage: "command [command options] [arguments...]",
         overview: "Command Line Interface for Upside Down applications"

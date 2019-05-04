@@ -9,57 +9,57 @@ import Utility
 
 struct BuildCommand: Command, OptionDecodable {
     enum Key: String, CodingKey {
-        case configurationURL, outputPath, test
+        case buildConfigurationPath, isDryRun
     }
     
     static let overview: String = "Builds an Upside Down application"
     static let options: [Key: CommandOption] = [
-        .configurationURL: .option("configuration", kind: String.self, shortName: "c", usage: "path to configuration file", completion: .filename),
-        .outputPath: .option("output", kind: String.self, shortName: "o", usage: "path to output directory", completion: .filename),
-        .test: .positional("test", kind: String.self, optional: false, usage: "just for testing", completion: .values([
-            (value: "help", description: "show buildctl help"),
-            (value: "version", description: "show buildctl version")
-        ]))
+        .buildConfigurationPath: .option("configuration", kind: String.self, shortName: "c", usage: "path to configuration file, default is upside-down-build.plist in working directory", completion: .filename),
+        .isDryRun: .option("dry-run", kind: Bool.self, shortName: nil, usage: "prints buildctl command instead of running it")
     ]
     
-    let configurationURL: Foundation.URL?
-    let outputPath: String?
-    let test: String
+    let buildConfigurationPath: Path?
+    let isDryRun: Bool
     
     func execute(in context: Context) throws {
-        if test == "dockerfile" {
-            let dockerfileURL = try getDockerfileURL(in: context)
-            let data = try String(contentsOf: dockerfileURL, encoding: .utf8)
-            print(data)
+        let buildConfigURL = buildConfigurationPath?.rawValue ?? URL(fileURLWithPath: "upside-down-build.plist")
+        let buildConfig = try BuildConfiguration.from(url: buildConfigURL)
+        
+        let appConfig = try context.loadConfiguration()
+        let dockerfileURL = try getDockerfileURL(in: context)
+        
+        let launchPath = appConfig.buildctlPath
+        
+        var arguments: [String] = [
+            "build",
+            "--frontend",
+            "dockerfile.v0",
+            "--local",
+            "dockerfile=\(dockerfileURL.path)",
+            "--opt",
+            "--target=\(buildConfig.target)"
+        ]
+        
+        buildConfig.stages.forEach {
+            arguments.append("--opt")
+            arguments.append("build-arg:\($0.key)=\($0.value)")
+        }
+        
+        if isDryRun {
+            print(([launchPath] + arguments).joined(separator: " "))
             return
         }
         
         let buildctl = Process()
-        buildctl.launchPath = "/usr/local/bin/buildctl"
-        
-        switch test {
-        case "help":
-            buildctl.arguments = ["--help"]
-        case "version":
-            buildctl.arguments = ["--version"]
-        default:
-            break
-        }
+        buildctl.launchPath =  launchPath
+        buildctl.arguments = arguments
         
         buildctl.launch()
         buildctl.waitUntilExit()
     }
     
     private func getDockerfileURL(in context: Context) throws -> Foundation.URL {
-        let configURL: Foundation.URL = try {
-            if let url = configurationURL {
-                return url
-            } else {
-                return try context.defaultConfigurationURL()
-            }
-            }()
-        
-        let config = try Configuration.from(url: configURL)
+        let config = try context.loadConfiguration()
         let pipeline = config.version
         let pipelineDir = try context.pipelineDirectory()
         
